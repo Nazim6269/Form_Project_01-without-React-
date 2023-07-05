@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <body class="container">
+      <div class="my-4">
+        <h3>Create New Contacts</h3>
+        <form action="/contacts" class="form-inline" method="POST" id="my-form">
+          <div class="form-group mb-3">
+            <input type="text" name="name" id="" placeholder="Name"
+            class="form-control <%= error.name ? "is-invalid" : " " %>" />
+            <div class="invalid-feedback"><%= error.name %></div>
+          </div>
+
+          <div class="form-group mb-3">
+            <input type="text" name="phone" id="" placeholder="Phone"
+            class="form-control <%= error.phone ? "is-invalid" : " " %>" />
+            <div class="invalid-feedback"><%= error.phone %></div>
+          </div>
+
+          <div class="form-group mb-3">
+            <input type="email" name="email" id="" placeholder="E-mail"
+            class="form-control <%= error.email ? "is-invalid" : " " %>" />
+            <div class="invalid-feedback"><%= error.email %></div>
+          </div>
+
+          <div class="form-group mb-3">
+            <input type="hidden" name="id" id="" />
+          </div>
+          <input type="submit" class="btn btn-primary btn-sm" value="Submit" />
+        </form>
+
+        <div>
+          <h3>Your contacts</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(contact of contacts) { %>
+              <tr>
+                <td scope="col"><%= contact.name %></td>
+                <td scope="col"><%= contact.phone %></td>
+                <td scope="col"><%= contact.email %></td>
+                <td scope="col">
+                  <button
+                    class="btn btn-warning btn-sm edit-btn"
+                    data-name="<%= contact.name %>"
+                    data-phone="<%= contact.phone %>"
+                    data-email="<%= contact.email %>"
+                    data-id="<%= contact._id %>"
+                  >
+                    Edit
+                  </button>
+                  <a
+                    href="/contacts/delete/<%= contact._id %>"
+                    class="btn btn-danger btn-sm"
+                  >
+                    Delete
+                  </a>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </body>
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+      integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      window.onload = function () {
+        let editBtns = document.getElementsByClassName("edit-btn");
+        let form = document.getElementById("my-form");
+        [...editBtns].forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            let { name, phone, email, id } = e.target.dataset;
+            form[0].value = name;
+            form[1].value = phone;
+            form[2].value = email;
+            form[3].value = id;
+            form[4].value = "Update";
+          });
+        });
+      };
+    </script>
+  </body>
+</html>
